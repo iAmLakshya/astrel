@@ -1,27 +1,39 @@
 <!doctype html>
-<html lang="en-GB">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Astrel</title>
-  <meta name="description" content="Astrel, from a little star. A small, self-contained system that makes its own light.">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#05060d">
-  <meta property="og:title" content="Astrel">
-  <meta property="og:description" content="A small, self-contained system that makes its own light.">
-  <meta property="og:url" content="https://astrel.sh/">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>astrel</title>
+<meta name="description" content="astrel: a little star. A homelab.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/astrel.css">
+<script src="/js/intro.js"></script>
 </head>
 <body>
-  <main>
-    <svg class="star" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 0C12.7 6.4 17.6 11.3 24 12C17.6 12.7 12.7 17.6 12 24C11.3 17.6 6.4 12.7 0 12C6.4 11.3 11.3 6.4 12 0Z"/>
-    </svg>
-    <h1>Astrel</h1>
-    <p class="origin">from <em>a little star</em></p>
-    <p class="lede">A small, self-contained system that makes its own light.</p>
-  </main>
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="hud">
+  <span class="host" data-mask data-decode>astrel.sh</span>
+  <span class="time" id="clock" data-mask>00:00:00 utc</span>
+</header>
+
+<main class="entry">
+  <h1 class="sr">astrel</h1>
+  <svg class="wordmark" data-mask aria-hidden="true" viewBox="2.15 4.15 133.7 21.7"><defs><linearGradient id="wm-gradient" gradientUnits="userSpaceOnUse" x1="2.15" y1="0" x2="135.85" y2="0"><stop offset="0" stop-color="#ffc178"/><stop offset="0.4" stop-color="#ff7ab6"/><stop offset="0.75" stop-color="#6f8cff"/><stop offset="1" stop-color="#9a7bff"/></linearGradient></defs><g fill="none" stroke="url(#wm-gradient)" stroke-width="1.7" stroke-linecap="butt"><g class="d1"><path pathLength="1" d="M2.15 5L6.3 5"/><path pathLength="1" d="M3 4.15L3 10.3"/><path pathLength="1" d="M9.85 5L5.7 5"/><path pathLength="1" d="M8.15 5L12.3 5"/><path pathLength="1" d="M15.85 5L11.7 5"/><path pathLength="1" d="M15 4.15L15 10.3"/><path pathLength="1" d="M3 15.85L3 9.7"/><path pathLength="1" d="M3 14.15L3 20.3"/><path pathLength="1" d="M2.15 15L6.3 15"/><path pathLength="1" d="M9.85 15L5.7 15"/><path pathLength="1" d="M8.15 15L12.3 15"/><path pathLength="1" d="M15 15.85L15 9.7"/><path pathLength="1" d="M15 14.15L15 20.3"/><path pathLength="1" d="M15.85 15L11.7 15"/><path pathLength="1" d="M3 25.85L3 19.7"/><path pathLength="1" d="M15 25.85L15 19.7"/></g>
+<g class="d2"><path pathLength="1" d="M26.15 5L30.3 5"/><path pathLength="1" d="M27 4.15L27 10.3"/><path pathLength="1" d="M33.85 5L29.7 5"/><path pathLength="1" d="M32.15 5L36.3 5"/><path pathLength="1" d="M39.85 5L35.7 5"/><path pathLength="1" d="M39 4.15L39 10.3"/><path pathLength="1" d="M27 15.85L27 9.7"/><path pathLength="1" d="M26.15 15L30.3 15"/><path pathLength="1" d="M33.85 15L29.7 15"/><path pathLength="1" d="M32.15 15L36.3 15"/><path pathLength="1" d="M39.85 15L35.7 15"/><path pathLength="1" d="M39 14.15L39 20.3"/><path pathLength="1" d="M27 25.85L27 19.7"/><path pathLength="1" d="M26.15 25L30.3 25"/><path pathLength="1" d="M33.85 25L29.7 25"/><path pathLength="1" d="M32.15 25L36.3 25"/><path pathLength="1" d="M39 25.85L39 19.7"/><path pathLength="1" d="M39.85 25L35.7 25"/></g>
+<g class="d3"><path pathLength="1" d="M50.15 5L54.3 5"/><path pathLength="1" d="M57.85 5L53.7 5"/><path pathLength="1" d="M56.15 5L60.3 5"/><path pathLength="1" d="M57 4.15L57 10.3"/><path pathLength="1" d="M63.85 5L59.7 5"/><path pathLength="1" d="M57 15.85L57 9.7"/><path pathLength="1" d="M57 14.15L57 20.3"/><path pathLength="1" d="M57 25.85L57 19.7"/></g>
+<g class="d4"><path pathLength="1" d="M74.15 5L78.3 5"/><path pathLength="1" d="M75 4.15L75 10.3"/><path pathLength="1" d="M81.85 5L77.7 5"/><path pathLength="1" d="M80.15 5L84.3 5"/><path pathLength="1" d="M87.85 5L83.7 5"/><path pathLength="1" d="M87 4.15L87 10.3"/><path pathLength="1" d="M75 15.85L75 9.7"/><path pathLength="1" d="M75 14.15L75 20.3"/><path pathLength="1" d="M74.15 15L78.3 15"/><path pathLength="1" d="M81.85 15L77.7 15"/><path pathLength="1" d="M80.15 15L84.3 15"/><path pathLength="1" d="M81 14.15L81 20.3"/><path pathLength="1" d="M87 15.85L87 9.7"/><path pathLength="1" d="M87.85 15L83.7 15"/><path pathLength="1" d="M75 25.85L75 19.7"/><path pathLength="1" d="M81 25.85L81 19.7"/><path pathLength="1" d="M80.15 25L84.3 25"/><path pathLength="1" d="M87.85 25L83.7 25"/></g>
+<g class="d5"><path pathLength="1" d="M98.15 5L102.3 5"/><path pathLength="1" d="M99 4.15L99 10.3"/><path pathLength="1" d="M105.85 5L101.7 5"/><path pathLength="1" d="M104.15 5L108.3 5"/><path pathLength="1" d="M111.85 5L107.7 5"/><path pathLength="1" d="M99 15.85L99 9.7"/><path pathLength="1" d="M99 14.15L99 20.3"/><path pathLength="1" d="M98.15 15L102.3 15"/><path pathLength="1" d="M105.85 15L101.7 15"/><path pathLength="1" d="M99 25.85L99 19.7"/><path pathLength="1" d="M98.15 25L102.3 25"/><path pathLength="1" d="M105.85 25L101.7 25"/><path pathLength="1" d="M104.15 25L108.3 25"/><path pathLength="1" d="M111.85 25L107.7 25"/></g>
+<g class="d6"><path pathLength="1" d="M123 4.15L123 10.3"/><path pathLength="1" d="M123 15.85L123 9.7"/><path pathLength="1" d="M123 14.15L123 20.3"/><path pathLength="1" d="M123 25.85L123 19.7"/><path pathLength="1" d="M122.15 25L126.3 25"/><path pathLength="1" d="M129.85 25L125.7 25"/><path pathLength="1" d="M128.15 25L132.3 25"/><path pathLength="1" d="M135.85 25L131.7 25"/></g></g></svg>
+  <p class="def" data-mask data-decode><span class="pron">/ˈæs.trɛl/</span><span class="pos">n.</span><span class="gloss">a little star</span></p>
+</main>
+
+<aside class="math" data-mask data-decode aria-label="The equations behind the picture">
+  <p><span class="key">sky</span><span class="eq">θ = 137.508° · n</span><span class="gap"></span><span class="eq">r = c · √n</span></p>
+  <p><span class="key">arms</span><span class="eq">r = a · φ<sup>2θ/π</sup></span></p>
+</aside>
+
+<script src="/vendor/three.min.js"></script>
+<script src="/js/sky.js"></script>
 </body>
 </html>

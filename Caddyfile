@@ -11,8 +11,8 @@
 	root * /srv
 
 	header {
-		# The page loads only its own style sheet and icon. It has no scripts.
-		Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+		# The page loads only its own files: scripts, style sheet, fonts and icon. No inline code.
+		Content-Security-Policy "default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
 		Strict-Transport-Security "max-age=31536000"
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy "no-referrer"
@@ -23,6 +23,9 @@
 		# Do not tell visitors which web server runs here.
 		-Server
 	}
+
+	# three.js is 600 KB. Compressed, it is about a quarter of that.
+	encode zstd gzip
 
 	# The health check of the container
 	respond /healthz 200

@@ -2,13 +2,16 @@
 
 Astrel comes from "a little star": a small, self-contained system that makes its own light.
 
-This repo holds the page at <https://astrel.sh>. The page is static: one HTML file, one style sheet and one icon. It has no scripts. A small computer at home serves it, not a hosting service.
+This repo holds the page at <https://astrel.sh>. The page is static. A WebGL sky draws a galaxy as a sunflower of dots, with three.js. A small computer at home serves it, not a hosting service.
 
 ## Layout
 
 | Path | Job |
 | --- | --- |
-| `site/` | The files of the page, and the page for errors |
+| `site/index.html`, `site/404.html` | The page, and the page for errors |
+| `site/css/`, `site/js/` | The style sheet and the scripts of the page |
+| `site/fonts/` | Martian Mono and a small part of JetBrains Mono, with their OFL licences |
+| `site/vendor/` | three.js r128, the same file as the npm package `three@0.128.0`, with its MIT licence |
 | `Caddyfile` | The settings of the web server, with the security headers |
 | `Dockerfile` | The image: Caddy and the files of the page |
 | `test/smoke.sh` | Starts the image and checks the page and its headers |
@@ -51,7 +54,8 @@ A pull request only builds and tests the image. It does not push it.
 
 ## Security
 
-- The page has no scripts, forms, cookies or third-party requests. Its Content Security Policy blocks all other content.
+- The page loads each file from `astrel.sh` itself: no fonts, scripts or images from another site. It has no forms and no cookies.
+- Its Content Security Policy allows scripts, styles, fonts and images from `astrel.sh` only, and no inline code. `test/smoke.sh` checks this.
 - Caddy runs as the user `nobody`, with no Linux capabilities. The file system is read-only. Only `/data` is a small folder in memory, for the lock files of Caddy.
 - Cloudflare holds the TLS certificate. Caddy speaks plain HTTP, and only the tunnel connector on the same computer can reach it.
 - The base image and each action are pinned to a digest or a commit. Dependabot proposes each update.

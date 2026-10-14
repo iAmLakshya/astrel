@@ -29,24 +29,31 @@ until curl -fs -o /dev/null "$url/healthz"; do
 	sleep 1
 done
 
-curl -fsS "$url/" | grep -q '<h1>Astrel</h1>' || fail "the page has no <h1>Astrel</h1>"
+curl -fsS "$url/" | grep -q '<h1 class="sr">astrel</h1>' || fail "the page has no <h1 class=\"sr\">astrel</h1>"
+# The page must load each file from astrel.sh itself, never from another site.
+if curl -fsS "$url/" | grep -q -E '(src|href)="https?://'; then
+	fail "the page loads a file from another site"
+fi
 
 headers=$(curl -fsS -D - -o /dev/null "$url/" | tr -d '\r')
 for h in content-security-policy strict-transport-security x-content-type-options \
 	referrer-policy permissions-policy cross-origin-opener-policy; do
 	echo "$headers" | grep -qi "^$h: " || fail "the header $h is missing"
 done
+if echo "$headers" | grep -i '^content-security-policy: ' | grep -q 'unsafe'; then
+	fail "the CSP allows inline code"
+fi
 if echo "$headers" | grep -qi '^server: '; then
 	fail "the Server header names the web server"
 fi
 
-for path in /style.css /favicon.svg; do
+for path in /css/astrel.css /js/intro.js /js/sky.js /vendor/three.min.js /fonts/martian-mono-latin.woff2 /favicon.svg; do
 	curl -fsS -o /dev/null "$url$path" || fail "$path does not load"
 done
 
 code=$(curl -s -o /dev/null -w '%{http_code}' "$url/no-such-page")
 [ "$code" = 404 ] || fail "an unknown path gave HTTP $code, not 404"
-curl -s "$url/no-such-page" | grep -q 'There is no light' || fail "an unknown path does not show 404.html"
+curl -s "$url/no-such-page" | grep -q 'no light at this address' || fail "an unknown path does not show 404.html"
 
 [ "$(docker exec "$name" id -u)" = 65534 ] || fail "Caddy does not run as the user nobody"
 
