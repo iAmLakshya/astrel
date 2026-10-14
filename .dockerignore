@@ -1,0 +1,4 @@
+# Send only the files that the image needs.
+*
+!Caddyfile
+!site/

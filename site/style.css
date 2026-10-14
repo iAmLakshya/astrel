@@ -1,0 +1,109 @@
+:root {
+  --sky: #05060d;
+  --sky-glow: #121a33;
+  --light: #f4efe2;
+  --muted: #9aa3b8;
+  --star: #ffe9a8;
+  --star-glow: rgb(255 233 168 / 0.8);
+  --star-halo: rgb(255 233 168 / 0.3);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--sky);
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: 2rem 1rem;
+  color: var(--light);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* A few faint stars over a dark sky. Pure CSS, so the page loads nothing else. */
+  background:
+    radial-gradient(1px 1px at 18% 24%, rgb(255 255 255 / 0.55), transparent),
+    radial-gradient(1px 1px at 72% 16%, rgb(255 255 255 / 0.35), transparent),
+    radial-gradient(1px 1px at 86% 64%, rgb(255 255 255 / 0.45), transparent),
+    radial-gradient(1px 1px at 28% 80%, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(1.5px 1.5px at 60% 88%, rgb(255 255 255 / 0.4), transparent),
+    radial-gradient(1px 1px at 8% 56%, rgb(255 255 255 / 0.3), transparent),
+    radial-gradient(ellipse at 50% 42%, var(--sky-glow), var(--sky) 70%);
+}
+
+main {
+  max-width: 34rem;
+  text-align: center;
+}
+
+.star {
+  width: 3rem;
+  height: 3rem;
+  fill: var(--star);
+  filter: drop-shadow(0 0 0.5rem var(--star-glow)) drop-shadow(0 0 2rem var(--star-halo));
+  animation: glow 6s ease-in-out infinite;
+}
+
+.star-dim {
+  opacity: 0.45;
+  animation: none;
+}
+
+h1 {
+  margin: 1.5rem 0 0.5rem;
+  /* letter-spacing adds space after the last letter. The same padding before it keeps the word centred. */
+  padding-left: 0.12em;
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.12em;
+}
+
+.origin {
+  margin: 0 0 2rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+
+.lede {
+  margin: 0;
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+  line-height: 1.6;
+  opacity: 0.88;
+}
+
+.back {
+  margin: 2rem 0 0;
+}
+
+a {
+  color: var(--star);
+  text-underline-offset: 0.2em;
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .star {
+    animation: none;
+  }
+}

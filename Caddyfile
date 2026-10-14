@@ -1,0 +1,37 @@
+# Caddy serves the static files of the page.
+# TLS ends at Cloudflare. So this server speaks plain HTTP on port 8080,
+# and only the tunnel connector on the same guest talks to it.
+{
+	admin off
+	auto_https off
+	persist_config off
+}
+
+:8080 {
+	root * /srv
+
+	header {
+		# The page loads only its own style sheet and icon. It has no scripts.
+		Content-Security-Policy "default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'"
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		Cross-Origin-Opener-Policy "same-origin"
+		Cross-Origin-Resource-Policy "same-origin"
+		Cache-Control "public, max-age=300"
+		# Do not tell visitors which web server runs here.
+		-Server
+	}
+
+	# The health check of the container
+	respond /healthz 200
+
+	file_server
+
+	# Each error shows its own page, for example /404.html, with the error status.
+	handle_errors {
+		rewrite * /{err.status_code}.html
+		file_server
+	}
+}
